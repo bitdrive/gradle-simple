@@ -20,9 +20,14 @@ java {
     withJavadocJar()
     withSourcesJar()
 }
+
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId = "gradle-simple"
+            from components.java
+            artifact sourceJar
             pom {
                 licenses {
                     license {
