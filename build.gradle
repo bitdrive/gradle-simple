@@ -25,7 +25,7 @@ java {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = "gradle-simple"
+            //artifactId = "gradle-simple"
             from components.java
             pom {
                 licenses {
