@@ -1,50 +1,46 @@
-apply plugin: 'java'
-apply plugin: 'maven'
+plugins {
+    id 'java'
+    id 'maven-publish'
+   //id 'signing'
+}
 
 group = 'com.github.jitpack'
-
-sourceCompatibility = 1.8 // java 8
-targetCompatibility = 1.8
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.google.guava:guava:29.0-jre'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-// To specify a license in the pom:
-install {
-  repositories.mavenInstaller {
-    pom.project {
-      licenses {
-        license {
-          name 'The Apache Software License, Version 2.0'
-          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          distribution 'repo'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
 
-wrapper {
-    gradleVersion = "6.1.1"
-    distributionType = Wrapper.DistributionType.ALL
-}
+
+//signing {
+//    sign publishing.publications.mavenJava
+//}
+
+//wrapper {
+//    gradleVersion = "7.3.3"
+//    distributionType = Wrapper.DistributionType.ALL
+//}
